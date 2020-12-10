@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+	<title>QR Code Generator Online</title>
+	<link rel="dns-prefetch" href="//www.googletagservices.com" />
+	<link rel="dns-prefetch" href="//www.googletagmanager.com" />
+	<link rel="dns-prefetch" href="//www.google-analytics.com" />
+	<link rel="canonical" href="https://qrcode.codethoi.com/" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Free Online QR Code Generator to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more">
+	<meta NAME="keywords" CONTENT="QR, QR Code, Generator">
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Free Online QR Code Generator to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more" />
+	<link rel="apple-touch-icon" sizes="180x180" href="https://codethoi.com/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="https://codethoi.com/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="https://codethoi.com/favicon-16x16.png">
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<meta name="google-site-verification" content="wo64O86TdUrMxfsofpwf5VlbUIjjvXHZzDY5abf0ts0" />
+
+	<script src="assets/js/main.js"></script> 
+	<style>
+		#search_tags {
+		  list-style: none;
+		  margin: 0;
+		  padding: 0px;
+		  font-size: 10px;
+		  color: #888;
+		  text-align: center;
+		}
+		#search_tags li {
+		  display: inline;
+		  padding: 0 4px;
+		  border-right: 1px solid #888;
+		}
+		#search_tags li a {
+			color: #888;
+		}
+		
+		.form-control {
+			border-radius: 0px;
+		}
+		.font-format {
+			font-size: 12px;
+			font-family: monospace;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12" style="padding: 0px">
+				<h1>QR Code Generator Online</h1> 
+				<p>Free Online QR Code Generator to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-5" style="padding: 0px">
+				<div class="form-group">
+					<textarea class="form-control" name="input" cols="45" rows="15"></textarea>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<select class="form-control" name="direction">
+						<option value="0">50x50 (px)</option>
+						<option value="0">200x200 (px)</option>
+						<option value="0">300x300 (px)</option>
+						<option value="0">400x400 (px)</option>
+					</select>
+				</div>
+				<div class="btn-group" style="width:100%" role="group">
+					<input type="submit" value="Convert" class="btn btn-primary"/>
+					<input type="reset" value="Clear"  class="btn btn-secondary" />
+				</div>
+			</div>
+			<div class="col-md-5" style="padding: 0px">
+				<div class="form-group">
+					<img src="https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=H|1&chl=123123&choe=UTF-8" id="qr-code-gen"/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12" style="padding: 0px; margin-bottom: 50px">
+				<ul id="search_tags">
+					<li><a href="https://qrcode.codethoi.com" title="QR Code Generator">QR Code Generator</a></li>
+					<li><a href="https://jsonformatter.codethoi.com" title="JSON Formatter">JSON Formatter</a></li>
+					<li><a href="https://codethoi.com" title="Code Thối | Blog">Code Thối</a></li>
+					<li><a href="https://ruler.codethoi.com" title="Thước đo online">Thước đo online</a></li>
+					<li><a href="https://jconv.codethoi.com" title="Unicode Convert">Unicode Convert</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
