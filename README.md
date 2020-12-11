@@ -1,3 +1,3 @@
-# jsonformatter.codethoi.com
+# qrcode.codethoi.com
 
-JSON Formatter - Beautifier
+QR Code Generator Online
