@@ -24,7 +24,6 @@ function makeQrCode() {
 	
 	var qrCode = 'https://chart.apis.google.com/chart?cht=qr&chs=' + size +'&chld=H|1&choe=UTF-8&chl=' + encodeURIComponent(value);
 	
-	console.log(qrCode);
 	document.querySelector('#qr-code-gen').src = qrCode;
 }
 
