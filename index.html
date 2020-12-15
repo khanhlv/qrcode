@@ -18,7 +18,7 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="https://codethoi.com/favicon-16x16.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<meta name="google-site-verification" content="wo64O86TdUrMxfsofpwf5VlbUIjjvXHZzDY5abf0ts0" />
-
+	
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-239GZM895E"></script>
 	<script>
@@ -29,6 +29,7 @@
 	  gtag('config', 'G-239GZM895E');
 	</script>
 	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	</script>
 	<script src="assets/js/main.js"></script> 
 	<style>
 		.bd-footer {
@@ -90,27 +91,26 @@
 		<div class="row">
 			<div class="col-md-5" style="padding: 0px">
 				<div class="form-group">
-					<textarea class="form-control" name="input" cols="45" rows="15"></textarea>
+					<textarea class="form-control" id="input" name="input" cols="45" rows="15"></textarea>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="form-group">
-					<select class="form-control" name="direction">
-						<option value="0">50x50 (px)</option>
-						<option value="0">200x200 (px)</option>
-						<option value="0">300x300 (px)</option>
-						<option value="0">400x400 (px)</option>
+					<select class="form-control" name="qr-size" id="qr-size">
+						<option value="5">400x400 (px)</option>
+						<option value="4">300x300 (px)</option>
+						<option value="3">200x200 (px)</option>
+						<option value="2">150x150 (px)</option>
+						<option value="1">50x50 (px)</option>
 					</select>
 				</div>
 				<div class="btn-group" style="width:100%" role="group">
-					<input type="submit" value="Convert" class="btn btn-primary"/>
-					<input type="reset" value="Clear"  class="btn btn-secondary" />
+					<input type="button" value="Convert" onclick="makeQrCode()" class="btn btn-primary"/>
+					<input type="button" value="Clear" onclick="clearInput()"  class="btn btn-secondary" />
 				</div>
 			</div>
-			<div class="col-md-5" style="padding: 0px">
-				<div class="form-group">
-					<img src="https://chart.apis.google.com/chart?cht=qr&chs=400x400&chld=H|1&chl=123123&choe=UTF-8" id="qr-code-gen"/>
-				</div>
+			<div class="col-md-5" style="padding: 0px;text-align: center;">
+				<img src="assets/img/chart.png" id="qr-code-gen"/>
 			</div>
 		</div>
 	</div>
