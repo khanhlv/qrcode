@@ -1,135 +1,288 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-	<title>QR Code Generator Online</title>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Encode - Decode QR Code Online</title>
+    <meta charset="UTF-8" />
+	
 	<link rel="dns-prefetch" href="//www.googletagservices.com" />
 	<link rel="dns-prefetch" href="//www.googletagmanager.com" />
 	<link rel="dns-prefetch" href="//www.google-analytics.com" />
 	<link rel="canonical" href="https://qrcode.codethoi.com/" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="Free Online QR Code Generator to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more">
-	<meta NAME="keywords" CONTENT="QR, QR Code, Generator">
+	<meta name="description" content="Encode - Decode QR Code Online">
+	<meta NAME="keywords" CONTENT="QR, QR Code, Generator, Encode QR Code Online,Decode QR Code Online, Decode QR, Encode QR">
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="Free Online QR Code Generator to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more" />
+	<meta property="og:title" content="Free Online EndCode - Decode QR Code  to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more" />
 	<link rel="apple-touch-icon" sizes="180x180" href="https://codethoi.com/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="https://codethoi.com/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="https://codethoi.com/favicon-16x16.png">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<meta name="google-site-verification" content="wo64O86TdUrMxfsofpwf5VlbUIjjvXHZzDY5abf0ts0" />
-	
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-239GZM895E"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+    <link rel="stylesheet" type="text/css" href="assets/css/default.css" />
+  </head>
+  <body>
+    <div class="main">
+      <ul class="tabs clearfix">
+        <li class="selected">Encode QR</li>
+        <li>Decode QR</li>
+      </ul>
+      <ul class="content clearfix">
+        <li class="encode selected">
+          <p>QR Code Content:</p>
+          <div><textarea id="encode-text"></textarea></div>
+          <p>
+            <label>Correction Level:</label>
+            <select id="encode-eclevel">
+              <option value="L">Level L (7%)</option>
+              <option value="M" selected>Level M (15%)</option>
+              <option value="Q">Level Q (25%)</option>
+              <option value="H">Level H (30%)</option>
+            </select>
+            <label class="indent">Support ECI:</label>
+            <input id="encoding-hint" type="checkbox" />
+            <label class="indent">Encoding:</label>
+            <select id="encode-mode">
+              <option value="Auto" selected>Auto</option>
+              <option value="QRByte">Byte</option>
+              <option value="QRAlphanumeric">Alphanumeric</option>
+              <option value="QRNumeric">Numeric</option>
+              <option value="QRKanji">Kanji</option>
+            </select>
+            <label class="indent">Size:</label>
+            <input id="encode-msize" type="number" min="1" max="10" value="7" />
+            <label class="indent">Padding:</label>
+            <input id="encode-margin" type="number" min="0" max="40" value="12" />
+          </p>
+          <p>
+            <button id="encode-btn">Encoding</button>
+          </p>
+          <div id="encode-result" class="encode-result hide"></div>
+        </li>
+        <li class="decode">
+          <p><label>QR Code Picture: </label><input type="file" accept="image/*" id="decode-file" /></p>
+          <div>
+            <canvas id="decode-canvas"></canvas>
+          </div>
+          <p>
+            <button id="decode-btn">Decoding</button>
+          </p>
+          <p id="decode-text" class="hide">解码值为：<br /><br /><textarea readonly></textarea></p>
+        </li>
+      </ul>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script type="text/javascript">
+      if (self.Uint8ClampedArray) {
+        if (!Uint8ClampedArray.from) {
+          Uint8ClampedArray.from = function (array) {
+            return new Uint8ClampedArray(array);
+          };
+        }
 
-	  gtag('config', 'G-239GZM895E');
-	</script>
-	<script src="assets/js/bootstrap.bundle.min.js"></script>
-	</script>
-	<script src="assets/js/main.js"></script> 
-	<style>
-		.bd-footer {
-			font-size: .875rem;
-			color: #63707c
-		}
+        if (!Uint8ClampedArray.prototype.forEach) {
+          var APForEach = Array.prototype.forEach;
 
-		.bd-footer a {
-			font-weight: 600;
-			color: #495057
-		}
+          Uint8ClampedArray.prototype.forEach = function (callback, context) {
+            return APForEach.call(this, callback, context);
+          };
+        }
+      }
+    </script>
+    <script type="text/javascript" src="assets/js/qrcode.js"></script>
+    <script type="text/javascript">
+      // Tab 切换
+      var nav = $('.tabs li');
+      var content = $('.content li');
 
-		.bd-footer a:hover,.bd-footer a:focus {
-			color: #0d6efd
-		}
-		
-		.form-control {
-			border-radius: 0px;
-		}
-		.font-format {
-			font-size: 12px;
-			font-family: monospace;
-		}
-	</style>
-</head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <div class="container-fluid">
-		<a class="navbar-brand" href="#">
-		  <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top"> Code Thối
-		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-		  <div class="navbar-nav">
-			<a class="nav-link" target="_blank" href="https://jsonformatter.codethoi.com">JSON Formatter</a>
-			<a class="nav-link" target="_blank" href="https://xmlformatter.codethoi.com">XML Formatter</a>
-			<a class="nav-link" target="_blank" href="https://htmlformatter.codethoi.com">HTML Formatter</a>
-			<a class="nav-link" target="_blank" href="https://jsformatter.codethoi.com">JS Formatter</a>
-			<a class="nav-link" target="_blank" href="https://cssformatter.codethoi.com">CSS Formatter</a>
-			<a class="nav-link" target="_blank" href="https://qrcode.codethoi.com">QR Code</a>
-			<a class="nav-link" target="_blank" href="https://diffchecker.codethoi.com">DiffChecker</a>
-			<a class="nav-link" target="_blank" href="https://jconv.codethoi.com">Unicode Convert</a>
-			<a class="nav-link" target="_blank" href="https://ruler.codethoi.com">Thước đo Online</a>
-			<a class="nav-link" target="_blank" href="https://codethoi.com">Blog</a>
-		  </div>
-		</div>
-	  </div>
-	</nav>
-	<div class="container">
-		<div class="row mt-3">
-			<div class="col-md-12" style="padding: 0px">
-				<h1>QR Code Generator Online</h1> 
-				<p>Free Online QR Code Generator to make your own QR Codes. Supports Dynamic Codes, Tracking, Analytics, Free text, vCards and more</p>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-md-5" style="padding: 0px">
-				<div class="form-group">
-					<textarea class="form-control" id="input" name="input" cols="45" rows="15"></textarea>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<div class="form-group">
-					<select class="form-control" name="qr-size" id="qr-size">
-						<option value="5">400x400 (px)</option>
-						<option value="4">300x300 (px)</option>
-						<option value="3">200x200 (px)</option>
-						<option value="2">150x150 (px)</option>
-						<option value="1">50x50 (px)</option>
-					</select>
-				</div>
-				<div class="btn-group" style="width:100%" role="group">
-					<input type="button" value="Convert" onclick="makeQrCode()" class="btn btn-primary"/>
-					<input type="button" value="Clear" onclick="clearInput()"  class="btn btn-secondary" />
-				</div>
-			</div>
-			<div class="col-md-5" style="padding: 0px;text-align: center;">
-				<img src="assets/img/chart.png" id="qr-code-gen"/>
-			</div>
-		</div>
-	</div>
-	<footer class="bd-footer p-3 p-md-5 mt-5 bg-light text-center text-sm-start">
-	  <div class="container">
-		<ul class="bd-footer-links ps-0 mb-3">
-			<li class="d-inline-block"><a target="_blank" href="https://jsonformatter.codethoi.com">JSON Formatter</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://xmlformatter.codethoi.com">XML Formatter</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://htmlformatter.codethoi.com">HTML Formatter</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://jsformatter.codethoi.com">JS Formatter</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://cssformatter.codethoi.com">CSS Formatter</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://qrcode.codethoi.com">QR Code</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://diffchecker.codethoi.com">DiffChecker</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://jconv.codethoi.com">Unicode Convert</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://ruler.codethoi.com">Thước đo Online</a> |</li>
-			<li class="d-inline-block ms-3"><a target="_blank" href="https://codethoi.com">Blog</a>
-		</ul>
-		<p class="mb-0">© 2020 CodeThoi</p>
-	  </div>
-	</footer>
-</body>
+      nav.on('click', function () {
+        var target = $(this);
+
+        nav.removeClass('selected');
+
+        target.addClass('selected');
+
+        content.removeClass('selected').eq(target.index()).addClass('selected');
+      });
+
+      var TEST_NUMERIC = /^\d+$/;
+      var TEST_ALPHANUMERIC = /^[0-9A-Z$%*+-./: ]+$/;
+
+      function chooseBestModeData(data) {
+        if (TEST_NUMERIC.test(data)) {
+          return new QRCode.QRNumeric(data);
+        } else if (TEST_ALPHANUMERIC.test(data)) {
+          return new QRCode.QRAlphanumeric(data);
+        }
+
+        try {
+          return new QRCode.QRKanji(data);
+        } catch (error) {
+          return new QRCode.QRByte(data);
+        }
+      }
+
+      var encodeText = $('#encode-text');
+      var encodeMode = $('#encode-mode');
+      var encodingHint = $('#encoding-hint');
+      var encodeECLevel = $('#encode-eclevel');
+      var encodeMargin = $('#encode-margin');
+      var encodeMSize = $('#encode-msize');
+      var encodeResult = $('#encode-result');
+
+      // 生成二维码
+      $('#encode-btn').on('click', function () {
+        var data = encodeText.val();
+        var mode = encodeMode.val();
+        var ecLevel = encodeECLevel.val();
+        var margin = Number(encodeMargin.val());
+        var moduleSize = Number(encodeMSize.val());
+        var hasEncodingHint = encodingHint.prop('checked');
+
+        if (!data) {
+          encodeResult.addClass('hide');
+
+          return alert('Please enter the content of the QR code');
+        }
+
+        var qrcode = new QRCode.Encoder();
+        var errorCorrectionLevel = QRCode.ErrorCorrectionLevel[ecLevel];
+
+        qrcode.setEncodingHint(hasEncodingHint).setErrorCorrectionLevel(errorCorrectionLevel);
+
+        try {
+          var data = mode === 'Auto' ? chooseBestModeData(data) : new QRCode[mode](data);
+
+          qrcode.write(data).make();
+
+          encodeResult.html('<img src="' + qrcode.toDataURL(moduleSize, margin) + '" />');
+          encodeResult.removeClass('hide');
+
+          console && console.log(qrcode);
+        } catch (error) {
+          encodeResult.addClass('hide');
+
+          alert(error.message);
+        }
+      });
+
+      var hasImage = false;
+      var imageData = null;
+      var decodeText = $('#decode-text');
+      var canvas = $('#decode-canvas')[0];
+      var context = canvas.getContext('2d');
+      var decodeResult = decodeText.find('textarea');
+
+      function resetDecoder() {
+        hasImage = false;
+        imageData = null;
+
+        decodeResult.val('');
+        decodeText.addClass('hide');
+      }
+
+      function drawImage(src) {
+        var img = new Image();
+
+        img.crossOrigin = 'anonymous';
+
+        img.onload = function () {
+          var width = img.width;
+          var height = img.height;
+          var actualWidth = Math.min(960, width);
+          var actualHeight = height * (actualWidth / width);
+
+          hasImage = true;
+          canvas.width = actualWidth;
+          canvas.height = actualHeight;
+
+          context.drawImage(img, 0, 0, width, height, 0, 0, actualWidth, actualHeight);
+
+          imageData = context.getImageData(0, 0, actualWidth, actualHeight);
+        };
+
+        img.src = src;
+      }
+
+      // 二维码加载
+      $('#decode-file').on('change', function (e) {
+        var file = e.target.files[0];
+
+        if (file) {
+          resetDecoder();
+
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            drawImage(e.target.result);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      });
+
+      function getImageData() {
+        imageData && context.putImageData(imageData, 0, 0);
+
+        return imageData || context.getImageData(0, 0, canvas.width, canvas.height);
+      }
+
+      function getModuleSize(location, version) {
+        var topLeft = location.topLeft;
+        var topRight = location.topRight;
+        var a = Math.abs(topRight.x - topLeft.x);
+        var b = Math.abs(topRight.y - topLeft.y);
+        var c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+
+        return c / (version * 4 + 17);
+      }
+
+      function markFinderPattern(x, y, moduleSize) {
+        context.fillStyle = '#00ff00';
+
+        context.beginPath();
+        context.arc(x, y, moduleSize * 0.75, 0, 2 * Math.PI);
+        context.fill();
+      }
+
+      function markQRCodeArea(location, version) {
+        context.lineWidth = 2;
+        context.strokeStyle = '#00ff00';
+
+        context.beginPath();
+        context.moveTo(location.topLeft.x, location.topLeft.y);
+        context.lineTo(location.topRight.x, location.topRight.y);
+        context.lineTo(location.bottomRight.x, location.bottomRight.y);
+        context.lineTo(location.bottomLeft.x, location.bottomLeft.y);
+        context.lineTo(location.topLeft.x, location.topLeft.y);
+        context.stroke();
+
+        var moduleSize = getModuleSize(location, version);
+
+        markFinderPattern(location.topLeftFinder.x, location.topLeftFinder.y, moduleSize);
+        markFinderPattern(location.topRightFinder.x, location.topRightFinder.y, moduleSize);
+        markFinderPattern(location.bottomLeftFinder.x, location.bottomLeftFinder.y, moduleSize);
+      }
+
+      $('#decode-btn').on('click', function () {
+        if (!hasImage) {
+          return alert('请选择二维码图片');
+        }
+
+        var imageData = getImageData();
+        var result = new QRCode.Decoder()
+          .setOptions({ canOverwriteImage: false })
+          .decode(imageData.data, imageData.width, imageData.height);
+
+        if (result) {
+          decodeResult.val(result.data);
+          decodeText.removeClass('hide');
+
+          markQRCodeArea(result.location, result.version);
+
+          console && console.log(result);
+        } else {
+          alert('QR code decoding failed');
+        }
+      });
+
+    </script>
+  </body>
 </html>
